@@ -50,12 +50,14 @@ func convert(input []block) (string, error) {
 				return strings.Join(padded, "\t")
 			}
 
-			pine_string += "\n" + padRow(b.Headers) + "\n"
+			pine_string += padRow(b.Headers) + "\n"
 			for _, row := range b.Rows {
 				pine_string += padRow(row) + "\n"
 			}
 		}
 	}
+
+	pine_string = strings.ReplaceAll(pine_string, `"`, `\"`) // catches all `"` in pine_string that might break the string output. Reason is that if someone types something like "hello" in the text block, the output would be ""hello"", which is not valid syntax in pine script.
 
 	return `"` + pine_string + `"`, nil
 }
