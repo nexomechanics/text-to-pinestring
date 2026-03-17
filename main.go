@@ -17,7 +17,8 @@ func main() {
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{"POST"},
+		AllowMethods: []string{"POST", "OPTIONS"},
+		AllowHeaders: []string{"Content-Type"},
 	}))
 
 	r.POST("/convert", handleConvert)
