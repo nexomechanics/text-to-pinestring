@@ -17,6 +17,14 @@ Tradingview provides all uses of the escape character "\" in pine script:
 
 No bold, italic, color, size, alignment, or markdown possible directly from strings.
 
+### Where \n and \t work
+- `input.text_area()` — renders correctly, monospace font
+- `tooltip` on inputs — renders correctly
+
+### Where \n and \t do NOT work
+- Alert messages — sent as raw text, `\n` and `\t` appear as literal characters
+- `label.new()` / `table.cell()` — proportional font, tabs won't align
+
 ### Tab stop rule (table alignment)
 Pine script renders string in a monospace-like font. From my analysis, tab stops are fixed at every 8 characters.
 
