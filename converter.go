@@ -50,10 +50,12 @@ func convert(input []block) (string, error) {
 				return strings.Join(padded, "\t")
 			}
 
-			pine_string += padRow(b.Headers) + "\n"
+			allRows := make([]string, 0, 1+len(b.Rows))
+			allRows = append(allRows, padRow(b.Headers))
 			for _, row := range b.Rows {
-				pine_string += padRow(row) + "\n"
+				allRows = append(allRows, padRow(row))
 			}
+			pine_string += strings.Join(allRows, "\n")
 		}
 	}
 
