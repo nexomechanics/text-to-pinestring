@@ -1,14 +1,23 @@
 package main
 
-import "github.com/gin-gonic/gin"
-import "github.com/gin-contrib/cors"
+import (
+	"net/http"
+	"os"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
 
 func handleConvert(c *gin.Context) {
-	var blocks []block
-	var result = ""
+	apiKey := os.Getenv("API_KEY")
+	if apiKey != "" && c.GetHeader("X-API-Key") != apiKey {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
 
+	var blocks []block
 	c.ShouldBindJSON(&blocks)
-	result, _ = convert(blocks)
+	result, _ := convert(blocks)
 	c.JSON(200, gin.H{"result": result})
 }
 
@@ -18,7 +27,7 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"POST", "OPTIONS"},
-		AllowHeaders: []string{"Content-Type"},
+		AllowHeaders: []string{"Content-Type", "X-API-Key"},
 	}))
 
 	r.POST("/convert", handleConvert)
