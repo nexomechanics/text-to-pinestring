@@ -20,10 +20,13 @@ No bold, italic, color, size, alignment, or markdown possible directly from stri
 ### Where \n and \t work
 - `input.text_area()` — renders correctly, monospace font
 - `tooltip` on inputs — renders correctly
+- `alert()` — renders correctly, supports both `\n` and `\t` for tabular formatting
+- `log.info()` / `log.warning()` / `log.error()` — `\n` creates new lines, first line gets a timestamp prefix; `\t` renders as a single space, no column alignment
 
 ### Where \n and \t do NOT work
-- Alert messages — sent as raw text, `\n` and `\t` appear as literal characters
-- `label.new()` / `table.cell()` — proportional font, tabs won't align
+- `runtime.error()` — both `\n` and `\t` are flattened to spaces, renders as a single line
+- `strategy.entry()` comment — both `\n` and `\t` are flattened to spaces, renders as a single line
+- `label.new()` / `table.cell()` — proportional font, `\n` works but `\t` won't align columns
 
 ### Tab stop rule (table alignment)
 Pine script renders string in a monospace-like font. From my analysis, tab stops are fixed at every 8 characters.
